@@ -1,10 +1,11 @@
-"use client";
-import { createTheme } from "@mui/material/styles";
+'use client';
 
-import localFont from "next/font/local";
+import localFont from 'next/font/local';
+
+import { createTheme } from '@mui/material/styles';
 
 export const imbVga = localFont({
-  src: "./assets/fonts/Web437_IBM_VGA_9x16.woff",
+  src: './assets/fonts/Web437_IBM_VGA_9x16.woff',
 });
 
 const theme = createTheme({
