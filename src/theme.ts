@@ -1,16 +1,15 @@
 "use client";
-import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
+import localFont from "next/font/local";
+
+export const imbVga = localFont({
+  src: "./assets/fonts/Web437_IBM_VGA_9x16.woff",
 });
 
 const theme = createTheme({
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: imbVga.style.fontFamily,
   },
 });
 
