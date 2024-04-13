@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import pokeData from '@/assets/data/pokemon.json';
 import Fuse from 'fuse.js';
 
+// const fuseOptions = {
+//   keys: ['name'],
+// };
+// const fuseIndex = Fuse.createIndex(fuseOptions.keys, pokeData.data);
+// const pokemons = new Fuse(pokeData.data, fuseOptions, fuseIndex);
 const pokemons = new Fuse(pokeData.data, {
   keys: ['name'],
 });

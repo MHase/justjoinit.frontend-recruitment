@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest",
     "types:get": "npx swagger-typescript-api -p https://www.timeapi.io/swagger/swaggerdoc.json -o ./src/types -n timeApi.ts"
   },
   "dependencies": {
@@ -27,7 +28,10 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.1",
+    "next-test-api-route-handler": "^4.0.6",
     "prettier": "^3.2.5",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.5.0"
   }
 }
