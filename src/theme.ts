@@ -12,6 +12,7 @@ const theme = createTheme({
   typography: {
     fontFamily: imbVga.style.fontFamily,
   },
+  spacing: 10,
 });
 
 export default theme;

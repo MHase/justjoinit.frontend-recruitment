@@ -14,12 +14,20 @@
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.3.4",
     "@mui/material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
+    "axios": "^1.6.8",
+    "axios-cache-interceptor": "^1.5.1",
+    "dayjs": "^1.11.10",
     "fuse.js": "^7.0.0",
     "next": "14.2.1",
+    "pokenode-ts": "^1.20.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.3",
+    "swr": "^2.2.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
