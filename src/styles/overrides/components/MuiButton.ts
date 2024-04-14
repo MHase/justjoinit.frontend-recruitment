@@ -16,7 +16,11 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
   },
   styleOverrides: {
     root: ({ theme }) => ({
+      'paddingLeft': 24,
+      'paddingRight': 24,
+      'height': 40,
       'textTransform': 'none',
+
       ':focus': {
         ...focusStyles(theme),
       },

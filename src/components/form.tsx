@@ -23,6 +23,8 @@ import * as z from 'zod';
 import { PokemonCard } from './PokemonCard/PokemonCard';
 import { Spinner } from './_icons/Spinner';
 
+const SEARCH_LENGTH_THRESHOLD = 3;
+
 type LocalPokemon = {
   item: {
     name: string;
@@ -76,7 +78,7 @@ export const Form = () => {
   const debouncedSearchValue = useDebouncedValue(inputValue, 500);
 
   const { data, isValidating } = useSWR<{ data: LocalPokemon[] }>(
-    debouncedSearchValue && debouncedSearchValue.length >= 3
+    debouncedSearchValue && debouncedSearchValue.length >= SEARCH_LENGTH_THRESHOLD
       ? `/api/search?name=${debouncedSearchValue}`
       : null,
     fetcher,
@@ -85,7 +87,7 @@ export const Form = () => {
   const availablePokemons = data?.data || [];
 
   const noOptionsText = useMemo(() => {
-    if (!debouncedSearchValue.length) {
+    if (debouncedSearchValue.length < SEARCH_LENGTH_THRESHOLD) {
       return 'Enter pokemon name';
     }
 
@@ -162,8 +164,9 @@ export const Form = () => {
             }}
             value={watch('pokemonName') || null}
             options={availablePokemons.map((entry) => entry.item.name) || []}
-            popupIcon={isValidating && <Spinner className='spin' />}
             noOptionsText={noOptionsText}
+            filterOptions={(option) => option}
+            {...(isValidating && { popupIcon: <Spinner className='spin' /> })}
           />
         </Grid>
 

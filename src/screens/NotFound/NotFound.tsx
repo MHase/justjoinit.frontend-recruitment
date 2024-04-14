@@ -25,7 +25,9 @@ const STARTERS: {
 
 export const NotFound = () => (
   <Stack gap={2} textAlign='center'>
-    <Typography variant='h2'>Looks like you're lost</Typography>
+    <Typography variant='h2' component='h1'>
+      Looks like you're lost
+    </Typography>
 
     <Typography variant='h3' component='p'>
       Go ahead and

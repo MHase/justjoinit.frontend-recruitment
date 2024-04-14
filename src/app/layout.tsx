@@ -22,7 +22,12 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
 
-            <Stack alignItems='center' justifyContent='center' minHeight='100vh'>
+            <Stack
+              alignItems='center'
+              justifyContent='center'
+              minHeight='100vh'
+              p={[2.4, null, 3.2]}
+            >
               {children}
             </Stack>
           </ThemeProvider>

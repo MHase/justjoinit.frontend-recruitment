@@ -67,7 +67,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
     cry.play();
   }, [pokemon]);
 
-  if (!pokemon && !isLoading) {
+  if (!name || (!pokemon && !isLoading)) {
     return (
       <Wrapper>
         <Typography color='text.secondary'>Your pokemon</Typography>
