@@ -1,9 +1,8 @@
+import theme from '@/styles/theme';
 import { Box, CssBaseline, Stack } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import type { Metadata } from 'next';
-
-import theme from '../styles/theme';
 
 export const metadata: Metadata = {
   title: 'Just Join IT',

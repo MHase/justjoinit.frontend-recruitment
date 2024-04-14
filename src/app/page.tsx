@@ -1,4 +1,4 @@
-import { Form } from '@/components/form';
+import { Form } from '@/components/Form';
 import { CurrentTime } from '@/types/timeapi';
 import { Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';

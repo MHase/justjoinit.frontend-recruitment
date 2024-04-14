@@ -5,7 +5,16 @@ import { useForm } from 'react-hook-form';
 
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Autocomplete, Box, Button, Stack, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  FormLabel,
+  Stack,
+  TextField,
+  Typography,
+  paperClasses,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import useSWR from 'swr';
@@ -21,11 +30,11 @@ type LocalPokemon = {
   refIndex: number;
 };
 
-type FormValues = {
-  name: string;
-  age: number;
-  pokemonName: string | null;
-};
+// type FormValues = {
+//   name: string;
+//   age: number;
+//   pokemonName: string | null;
+// };
 
 const schema = z.object({
   name: z.string().refine((val) => val.length >= 2 && val.length <= 20, {
@@ -40,18 +49,24 @@ const schema = z.object({
   pokemonName: z
     .string()
     .nullable()
-    .transform((value) => value ?? NaN),
+    .refine((val) => val !== null, {
+      message: 'Choose something',
+    }),
 });
+
+type FormValues = z.infer<typeof schema>;
 
 export const Form = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful, isSubmitted },
     watch,
     setValue,
     reset,
+    trigger,
   } = useForm<FormValues>({
+    mode: 'onChange',
     resolver: zodResolver(schema),
     defaultValues: {
       pokemonName: null,
@@ -77,36 +92,74 @@ export const Form = () => {
   const availablePokemons = data?.data || [];
 
   return (
-    <Box maxWidth={554}>
+    <>
+      <Dialog
+        open={isSubmitSuccessful}
+        sx={{
+          mx: 'auto',
+          // could use maxWidth prop but not for custom value
+          maxWidth: 380,
+          [`& .${paperClasses.root}`]: {
+            width: '100%',
+          },
+        }}
+      >
+        <Stack p={3.2} textAlign='center' spacing={3.2} alignItems='center'>
+          <Typography variant='headline'>Success</Typography>
+          <Button
+            onClick={() => {
+              reset();
+              // set(false);
+            }}
+          >
+            Reset form
+          </Button>
+        </Stack>
+      </Dialog>
+
       <Grid component='form' onSubmit={onSubmit} container spacing={2.4}>
         <Grid xs={12} md={6}>
+          <FormLabel htmlFor='name'>Trainer&apos;s name</FormLabel>
           <TextField
             {...register('name')}
-            label="Trainer's name"
+            id='name'
             placeholder="Trainer's name"
             fullWidth
+            error={Boolean(errors.name)}
+            helperText={errors.name && errors.name.message}
           />
-          {errors?.name && <p>{errors.name.message}</p>}
         </Grid>
 
         <Grid xs={12} md={6}>
+          <FormLabel htmlFor='age'>Trainer&apos;s age</FormLabel>
           <TextField
             {...register('age')}
-            label="Trainer's age"
+            id='age'
             placeholder="Trainer's age"
             fullWidth
+            error={Boolean(errors.age)}
+            helperText={errors.age && errors.age.message}
           />
-          {errors?.age && <p>{errors.age.message}</p>}
         </Grid>
 
         <Grid xs={12}>
+          <FormLabel htmlFor='pokemonName'>Pokemon name</FormLabel>
           <Autocomplete
             renderInput={(params) => (
-              <TextField {...params} label='Pokemon name' placeholder='Choose' />
+              <TextField
+                {...params}
+                id='pokemonName'
+                placeholder='Choose'
+                error={Boolean(errors.pokemonName)}
+                helperText={errors.pokemonName && errors.pokemonName.message}
+              />
             )}
             inputValue={inputValue}
             onInputChange={(_, value) => setInputValue(value)}
-            onChange={(_, value) => setValue('pokemonName', value)}
+            onChange={(_, value) => {
+              setValue('pokemonName', value);
+              trigger('pokemonName');
+            }}
             value={watch('pokemonName') || null}
             options={availablePokemons.map((entry) => entry.item.name) || []}
           />
@@ -118,15 +171,13 @@ export const Form = () => {
 
         <Grid xs={12}>
           <Stack component={Stack} justifyContent='flex-end' spacing={1.6} direction='row'>
-            <Button variant='contained' onClick={() => reset()}>
+            <Button variant='soft' onClick={() => reset()}>
               Reset
             </Button>
-            <Button variant='contained' type='submit'>
-              Submit
-            </Button>
+            <Button type='submit'>Submit</Button>
           </Stack>
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 };
