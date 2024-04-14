@@ -7,7 +7,9 @@ const getData = async (): Promise<CurrentTime> => {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    // just for an example to trigger error page
+    // in real app this should be fallbacked on client side
+    throw new Error('Failed to fetch current time in Warsaw');
   }
 
   return res.json();
