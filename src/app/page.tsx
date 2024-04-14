@@ -1,6 +1,6 @@
 import { Form } from '@/components/form';
 import { CurrentTime } from '@/types/timeapi';
-import { Typography } from '@mui/material';
+import { Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
 const getData = async (): Promise<CurrentTime> => {
@@ -19,9 +19,18 @@ export default async function Home() {
   const data = await getData();
 
   return (
-    <main>
-      <Typography>{dayjs(data.dateTime).format('dddd, DD.M.YYYY')}</Typography>
+    <Stack
+      component={Paper}
+      p={3.2}
+      spacing={2.4}
+      alignItems='center'
+      justifyContent='center'
+      maxWidth={544}
+    >
+      <Typography alignSelf='flex-end' variant='subtitle1'>
+        {dayjs(data.dateTime).format('dddd, DD.M.YYYY')}
+      </Typography>
       <Form />
-    </main>
+    </Stack>
   );
 }

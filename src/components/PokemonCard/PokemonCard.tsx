@@ -4,7 +4,6 @@ import Image from 'next/image';
 
 import { pokeApi } from '@/api/pokemon.api';
 import { Chip, Paper, Skeleton, Stack, Typography } from '@mui/material';
-import { AxiosError } from 'axios';
 import { Pokemon } from 'pokenode-ts';
 
 const Wrapper = ({ children }: { children: ReactNode }) => (
@@ -109,7 +108,6 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
             pokemon?.types.map(({ slot, type }) => (
               <Chip
                 component='span'
-                color='primary'
                 key={slot}
                 label={type.name}
                 sx={{ textTransform: 'capitalize' }}
