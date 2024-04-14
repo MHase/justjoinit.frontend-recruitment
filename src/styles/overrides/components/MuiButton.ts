@@ -26,7 +26,9 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
     {
       props: { variant: 'soft' },
       style: ({ theme }) => ({
+        'color': theme.palette.text.primary,
         'backgroundColor': theme.palette.grey[400],
+
         ':hover': {
           backgroundColor: theme.palette.grey[300],
         },

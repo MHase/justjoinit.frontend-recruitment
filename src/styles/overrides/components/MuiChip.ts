@@ -7,7 +7,7 @@ export const MuiChip: Components<Theme>['MuiChip'] = {
   styleOverrides: {
     colorPrimary: ({ theme }) => ({
       backgroundColor: theme.palette.primary.light,
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
     }),
   },
 };

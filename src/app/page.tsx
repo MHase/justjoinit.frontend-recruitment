@@ -1,7 +1,5 @@
-import { Form } from '@/components/Form';
+import { Home as HomeScreen } from '@/screens/Home';
 import { CurrentTime } from '@/types/timeapi';
-import { Paper, Stack, Typography } from '@mui/material';
-import dayjs from 'dayjs';
 
 const getData = async (): Promise<CurrentTime> => {
   const res = await fetch('https://www.timeapi.io/api/Time/current/zone?timeZone=Europe/Warsaw', {
@@ -18,19 +16,5 @@ const getData = async (): Promise<CurrentTime> => {
 export default async function Home() {
   const data = await getData();
 
-  return (
-    <Stack
-      component={Paper}
-      p={3.2}
-      spacing={2.4}
-      alignItems='center'
-      justifyContent='center'
-      maxWidth={544}
-    >
-      <Typography alignSelf='flex-end' variant='subtitle1'>
-        {dayjs(data.dateTime).format('dddd, DD.M.YYYY')}
-      </Typography>
-      <Form />
-    </Stack>
-  );
+  return <HomeScreen currentDateTime={data.dateTime} />;
 }

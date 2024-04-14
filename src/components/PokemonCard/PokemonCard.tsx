@@ -70,7 +70,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
   if (!pokemon && !isLoading) {
     return (
       <Wrapper>
-        <Typography>Your pokemon</Typography>
+        <Typography color='text.secondary'>Your pokemon</Typography>
       </Wrapper>
     );
   }

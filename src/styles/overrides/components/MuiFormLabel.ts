@@ -4,6 +4,7 @@ export const MuiFormLabel: Components<Theme>['MuiFormLabel'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       ...theme.typography.subtitle1,
+      color: theme.palette.text.primary,
     }),
   },
 };

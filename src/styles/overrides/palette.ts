@@ -29,7 +29,7 @@ export const palette: PaletteOptions = {
   },
   text: {
     primary: grey[100],
-    secondary: grey[100],
+    secondary: grey[200],
   },
   action: {
     focus: 'rgba(151, 71, 255, 0.25)',

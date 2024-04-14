@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { fetcher } from '@/api/default.api';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -16,11 +17,11 @@ import {
   paperClasses,
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import axios from 'axios';
 import useSWR from 'swr';
 import * as z from 'zod';
 
 import { PokemonCard } from './PokemonCard/PokemonCard';
+import { Spinner } from './_icons/Spinner';
 
 type LocalPokemon = {
   item: {
@@ -29,12 +30,6 @@ type LocalPokemon = {
   };
   refIndex: number;
 };
-
-// type FormValues = {
-//   name: string;
-//   age: number;
-//   pokemonName: string | null;
-// };
 
 const schema = z.object({
   name: z.string().refine((val) => val.length >= 2 && val.length <= 20, {
@@ -80,9 +75,7 @@ export const Form = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearchValue = useDebouncedValue(inputValue, 500);
 
-  const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
-  const { data } = useSWR<{ data: LocalPokemon[] }>(
+  const { data, isValidating } = useSWR<{ data: LocalPokemon[] }>(
     debouncedSearchValue && debouncedSearchValue.length >= 3
       ? `/api/search?name=${debouncedSearchValue}`
       : null,
@@ -90,6 +83,14 @@ export const Form = () => {
   );
 
   const availablePokemons = data?.data || [];
+
+  const noOptionsText = useMemo(() => {
+    if (!debouncedSearchValue.length) {
+      return 'Enter pokemon name';
+    }
+
+    return 'No pokemons found';
+  }, [debouncedSearchValue]);
 
   return (
     <>
@@ -109,7 +110,6 @@ export const Form = () => {
           <Button
             onClick={() => {
               reset();
-              // set(false);
             }}
           >
             Reset form
@@ -162,6 +162,8 @@ export const Form = () => {
             }}
             value={watch('pokemonName') || null}
             options={availablePokemons.map((entry) => entry.item.name) || []}
+            popupIcon={isValidating && <Spinner className='spin' />}
+            noOptionsText={noOptionsText}
           />
         </Grid>
 
