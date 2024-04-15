@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { routes } from '@/routes';
 import { Button, Stack, Typography } from '@mui/material';
 
-import { StarterPokemon } from './StarterPokemon';
+import { StarterPokemon } from './components/StarterPokemon';
 
 const STARTERS: {
   name: string;

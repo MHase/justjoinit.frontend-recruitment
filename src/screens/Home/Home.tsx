@@ -1,9 +1,10 @@
 'use client';
 
-import { Form } from '@/components/Form';
 import { CurrentTime } from '@/types/timeapi';
 import { Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
+
+import { TrainerForm } from './components/TrainerForm';
 
 type HomeProps = {
   currentDateTime: CurrentTime['dateTime'];
@@ -21,6 +22,7 @@ export const Home = ({ currentDateTime }: HomeProps) => (
     <Typography alignSelf='flex-end' variant='subtitle1'>
       {dayjs(currentDateTime).format('dddd, DD.M.YYYY')}
     </Typography>
-    <Form />
+
+    <TrainerForm />
   </Stack>
 );

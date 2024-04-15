@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { fetcher } from '@/api/default.api';
+import { Spinner } from '@/components/_icons/Spinner';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -20,8 +21,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import useSWR from 'swr';
 import * as z from 'zod';
 
-import { PokemonCard } from './PokemonCard/PokemonCard';
-import { Spinner } from './_icons/Spinner';
+import { PokemonCard } from './PokemonCard';
 
 const SEARCH_LENGTH_THRESHOLD = 3;
 
@@ -53,7 +53,7 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export const Form = () => {
+export const TrainerForm = () => {
   const {
     register,
     handleSubmit,
