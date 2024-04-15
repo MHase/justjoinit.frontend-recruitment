@@ -41,7 +41,7 @@ export const NotFound = () => (
 
     <Typography fontSize={20}>Or choose yout starter and hear them growl</Typography>
 
-    <Stack direction='row' justifyContent='center'>
+    <Stack direction={['column', null, 'row']} justifyContent='center'>
       {STARTERS.map(({ id, name }) => (
         <StarterPokemon id={id} name={name} key={id} />
       ))}

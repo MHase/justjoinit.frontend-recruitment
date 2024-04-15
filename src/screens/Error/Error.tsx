@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import Image from 'next/image';
 
-import { Box, Button, Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 
 import shockedImg from './assets/shocked.png';
 
@@ -18,7 +18,7 @@ export const Error = ({ error, reset }: ErrorProps) => {
 
   return (
     <>
-      <Stack gap={2}>
+      <Stack gap={2} textAlign='center'>
         <Typography variant='h2' component='h1'>
           Something went wrong!
         </Typography>
@@ -28,7 +28,7 @@ export const Error = ({ error, reset }: ErrorProps) => {
         <Image
           src={shockedImg}
           alt='shocked pikachu'
-          style={{ position: 'fixed', bottom: 0, right: 20 }}
+          style={{ position: 'fixed', bottom: -5, right: 20 }}
         />
       </Stack>
     </>
