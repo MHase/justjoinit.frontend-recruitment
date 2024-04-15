@@ -42,4 +42,8 @@ export const typography = {
     fontSize: 40,
     lineHeight: 'auto',
   },
+  button: {
+    fontSize: 14,
+    lineHeight: '20px',
+  },
 };
