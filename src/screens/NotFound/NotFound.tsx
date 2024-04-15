@@ -39,7 +39,7 @@ export const NotFound = () => (
       Return Home
     </Button>
 
-    <Typography fontSize={20}>Or choose yout starter and hear them growl</Typography>
+    <Typography fontSize={20}>Or choose your starter and hear them growl</Typography>
 
     <Stack direction={['column', null, 'row']} justifyContent='center'>
       {STARTERS.map(({ id, name }) => (
