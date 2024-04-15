@@ -100,6 +100,7 @@ export const TrainerForm = ({ onSubmit }: TrainerFormProps) => {
             fullWidth
             error={Boolean(errors.name)}
             helperText={errors.name && errors.name.message}
+            autoComplete='off'
           />
         </Grid>
 
@@ -112,6 +113,7 @@ export const TrainerForm = ({ onSubmit }: TrainerFormProps) => {
             fullWidth
             error={Boolean(errors.age)}
             helperText={errors.age && errors.age.message}
+            autoComplete='off'
           />
         </Grid>
 
@@ -126,6 +128,7 @@ export const TrainerForm = ({ onSubmit }: TrainerFormProps) => {
                 placeholder='Choose'
                 error={Boolean(errors.pokemonName)}
                 helperText={errors.pokemonName && errors.pokemonName.message}
+                autoComplete='off'
               />
             )}
             inputValue={inputValue}

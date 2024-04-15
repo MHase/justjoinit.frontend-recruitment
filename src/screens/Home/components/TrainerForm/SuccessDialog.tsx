@@ -19,7 +19,7 @@ export const SuccessDialog = ({ onProceed, ...props }: SuccessDialogProps) => (
   >
     <Stack p={3.2} textAlign='center' spacing={3.2} alignItems='center'>
       <Typography variant='headline'>Success</Typography>
-      <Button onClick={onProceed}>Reset form</Button>
+      <Button onClick={() => onProceed()}>Reset form</Button>
     </Stack>
   </Dialog>
 );
