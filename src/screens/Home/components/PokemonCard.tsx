@@ -39,7 +39,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
 
   useEffect(() => {
     (async () => {
-      if (!name || name?.length < 3) return;
+      if (!name) return;
 
       setIsLoading(true);
       setHasError(false);
@@ -48,7 +48,6 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
         // used pokenode-ts to get fully typed api in case of future app "growth"
         // unfortunately we gave to handle loading and error state manually (in this case swr could be used)
         const data = await pokeApi.getPokemonByName(name);
-
         // unfortunately every packages available has outdated types
         // so in this case we need to omit this error
         // @ts-ignore
@@ -109,13 +108,19 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
       </Box>
 
       <Stack gap={0.8}>
-        <Typography>
+        <Typography data-testid='pokemon-name'>
           Name:{' '}
           <Typography component='span'>
             {isLoading ? <Skeleton sx={{ display: 'inline-block' }} width={80} /> : pokemon?.name}
           </Typography>
         </Typography>
-        <Stack component={Typography} gap={0.8} direction='row' alignItems='center'>
+        <Stack
+          component={Typography}
+          gap={0.8}
+          direction='row'
+          alignItems='center'
+          data-testid='pokemon-types'
+        >
           Type:{' '}
           {isLoading ? (
             <Skeleton width={53} height={32} />
@@ -130,7 +135,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
             ))
           )}
         </Stack>
-        <Typography>
+        <Typography data-testid='pokemon-base-exp'>
           Base experience:{' '}
           {isLoading ? (
             <Skeleton sx={{ display: 'inline-block' }} width={18} />
@@ -138,7 +143,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
             pokemon?.base_experience
           )}
         </Typography>
-        <Typography>
+        <Typography data-testid='pokemon-id'>
           Id: {isLoading ? <Skeleton sx={{ display: 'inline-block' }} width={18} /> : pokemon?.id}
         </Typography>
       </Stack>
