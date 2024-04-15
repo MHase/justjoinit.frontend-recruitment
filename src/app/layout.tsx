@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Recruitment | Just Join IT',
   description: 'Senior Frontend recruitment task',
+  metadataBase: new URL('https://jjit.vercel.app'),
 };
 
 export default function RootLayout({
