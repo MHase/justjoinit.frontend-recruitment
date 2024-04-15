@@ -7,16 +7,7 @@ import { fetcher } from '@/api/default.api';
 import { Spinner } from '@/components/_icons/Spinner';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  FormLabel,
-  Stack,
-  TextField,
-  Typography,
-  paperClasses,
-} from '@mui/material';
+import { Autocomplete, Button, FormLabel, Stack, TextField } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import useSWR from 'swr';
 import * as z from 'zod';
@@ -24,16 +15,6 @@ import * as z from 'zod';
 import { PokemonCard } from '../PokemonCard';
 import { SuccessDialog } from './SuccessDialog';
 import { schema } from './TrainerForm.schema';
-
-const SEARCH_LENGTH_THRESHOLD = 3;
-
-type LocalPokemon = {
-  item: {
-    name: string;
-    id: number;
-  };
-  refIndex: number;
-};
 
 type FormValues = z.infer<typeof schema>;
 
@@ -63,17 +44,22 @@ export const TrainerForm = ({ onSubmit }: TrainerFormProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearchValue = useDebouncedValue(inputValue, 500);
 
-  const { data, isValidating } = useSWR<{ data: LocalPokemon[] }>(
-    debouncedSearchValue && debouncedSearchValue.length >= SEARCH_LENGTH_THRESHOLD
-      ? `/api/search?name=${debouncedSearchValue}`
-      : null,
-    fetcher,
-  );
+  const { data, isValidating } = useSWR<{
+    data: {
+      item: {
+        name: string;
+        id: number;
+      };
+      refIndex: number;
+    }[];
+  }>(debouncedSearchValue ? `/api/search?name=${debouncedSearchValue}` : null, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   const availablePokemons = data?.data || [];
 
   const noOptionsText = useMemo(() => {
-    if (debouncedSearchValue.length < SEARCH_LENGTH_THRESHOLD) {
+    if (!debouncedSearchValue.length) {
       return 'Enter pokemon name';
     }
 

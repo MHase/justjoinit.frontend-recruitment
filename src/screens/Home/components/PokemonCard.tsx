@@ -3,7 +3,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { pokeApi } from '@/api/pokemon.api';
-import { Chip, Paper, Skeleton, Stack, Typography } from '@mui/material';
+import { Play } from '@/components/_icons/Play';
+import { Box, Chip, IconButton, Paper, Skeleton, Stack, Typography } from '@mui/material';
 import { Pokemon } from 'pokenode-ts';
 
 const Wrapper = ({ children }: { children: ReactNode }) => (
@@ -44,7 +45,7 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
       setHasError(false);
 
       try {
-        // used pokenode-ts to get fully typed api in case of future app growth
+        // used pokenode-ts to get fully typed api in case of future app "growth"
         // unfortunately we gave to handle loading and error state manually (in this case swr could be used)
         const data = await pokeApi.getPokemonByName(name);
 
@@ -60,12 +61,20 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
     })();
   }, [name]);
 
-  useEffect(() => {
-    if (!pokemon || !pokemon?.cries.latest) return;
+  const playBattleCry = () => {
+    if (!pokemon) return;
 
     const cry = new Audio(pokemon.cries.latest);
     cry.play();
-  }, [pokemon]);
+  };
+
+  if (hasError) {
+    return (
+      <Wrapper>
+        <Typography color='error'>Something went wrong downloading data</Typography>
+      </Wrapper>
+    );
+  }
 
   if (!name || (!pokemon && !isLoading)) {
     return (
@@ -77,21 +86,27 @@ export const PokemonCard = ({ name }: PokemonCardProps) => {
 
   return (
     <Wrapper>
-      {isLoading ? (
-        <Skeleton variant='rectangular' width={196} height={196} />
-      ) : (
-        pokemon &&
-        pokemon.sprites.front_default && (
-          <Image
-            src={pokemon.sprites.front_default}
-            alt={pokemon.name}
-            width={196}
-            height={196}
-            quality={100}
-            style={{ imageRendering: 'pixelated' }}
-          />
-        )
-      )}
+      <Box position='relative'>
+        {isLoading ? (
+          <Skeleton variant='rectangular' width={196} height={196} />
+        ) : (
+          pokemon && (
+            <Image
+              src={pokemon.sprites.front_default || ''}
+              alt={pokemon.name}
+              width={196}
+              height={196}
+              quality={100}
+              style={{ imageRendering: 'pixelated' }}
+            />
+          )
+        )}
+        {!isLoading && pokemon?.cries.latest && (
+          <IconButton onClick={playBattleCry} sx={{ position: 'absolute', bottom: 10, right: 10 }}>
+            <Play />
+          </IconButton>
+        )}
+      </Box>
 
       <Stack gap={0.8}>
         <Typography>

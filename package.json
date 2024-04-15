@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
     "types:get": "npx swagger-typescript-api -p https://www.timeapi.io/swagger/swaggerdoc.json -o ./src/types -n timeApi.ts",
     "docker:dev": "docker compose up -d --build",
     "docker:prod": "docker compose -f 'docker-compose.prod.yml' up -d --build"
@@ -40,7 +39,6 @@
     "@types/react": "^18.2.78",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.2.1",
-    "@vitest/coverage-istanbul": "^1.5.0",
     "eslint": "^9.0.0",
     "eslint-config-next": "14.2.1",
     "jsdom": "^24.0.0",

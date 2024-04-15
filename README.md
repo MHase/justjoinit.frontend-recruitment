@@ -45,3 +45,12 @@ This issue was already addressed by other users few days ago
 - [Vercel GH issue #2](https://github.com/vercel/next.js/issues/64136)
 
 Provided solution was downgrading to eslint e.g. v8.57.0
+
+## External types
+
+Project uses external types downloaded directly from TimeApi Swagger
+To get newest version run:
+
+```bash
+yarn types:get
+```
