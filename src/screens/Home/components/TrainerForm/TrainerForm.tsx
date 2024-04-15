@@ -21,7 +21,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import useSWR from 'swr';
 import * as z from 'zod';
 
-import { PokemonCard } from './PokemonCard';
+import { PokemonCard } from '../PokemonCard';
+import { SuccessDialog } from './SuccessDialog';
+import { schema } from './TrainerForm.schema';
 
 const SEARCH_LENGTH_THRESHOLD = 3;
 
@@ -33,27 +35,13 @@ type LocalPokemon = {
   refIndex: number;
 };
 
-const schema = z.object({
-  name: z.string().refine((val) => val.length >= 2 && val.length <= 20, {
-    message: 'Required from 2 to 20 symbols',
-  }),
-  age: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .refine((val) => val >= 16 && val <= 99, {
-      message: 'Required range from 16-99',
-    }),
-  pokemonName: z
-    .string()
-    .nullable()
-    .refine((val) => val !== null, {
-      message: 'Choose something',
-    }),
-});
-
 type FormValues = z.infer<typeof schema>;
 
-export const TrainerForm = () => {
+type TrainerFormProps = {
+  onSubmit: (data: FormValues) => void;
+};
+
+export const TrainerForm = ({ onSubmit }: TrainerFormProps) => {
   const {
     register,
     handleSubmit,
@@ -71,8 +59,6 @@ export const TrainerForm = () => {
   });
 
   const pokemonName = watch('pokemonName');
-
-  const onSubmit = handleSubmit((data) => console.log(data));
 
   const [inputValue, setInputValue] = useState<string>('');
   const debouncedSearchValue = useDebouncedValue(inputValue, 500);
@@ -96,30 +82,15 @@ export const TrainerForm = () => {
 
   return (
     <>
-      <Dialog
-        open={isSubmitSuccessful}
-        sx={{
-          mx: 'auto',
-          // could use maxWidth prop but not for custom value
-          maxWidth: 380,
-          [`& .${paperClasses.root}`]: {
-            width: '100%',
-          },
-        }}
-      >
-        <Stack p={3.2} textAlign='center' spacing={3.2} alignItems='center'>
-          <Typography variant='headline'>Success</Typography>
-          <Button
-            onClick={() => {
-              reset();
-            }}
-          >
-            Reset form
-          </Button>
-        </Stack>
-      </Dialog>
+      <SuccessDialog open={isSubmitSuccessful} onProceed={reset} />
 
-      <Grid component='form' onSubmit={onSubmit} container spacing={2.4}>
+      <Grid
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        container
+        spacing={2.4}
+        data-testid='trainer-form'
+      >
         <Grid xs={12} md={6}>
           <FormLabel htmlFor='name'>Trainer&apos;s name</FormLabel>
           <TextField
@@ -147,6 +118,7 @@ export const TrainerForm = () => {
         <Grid xs={12}>
           <FormLabel htmlFor='pokemonName'>Pokemon name</FormLabel>
           <Autocomplete
+            data-testid='pokemon-name-autocomplete'
             renderInput={(params) => (
               <TextField
                 {...params}

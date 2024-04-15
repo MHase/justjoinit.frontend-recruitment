@@ -4,7 +4,7 @@ import { CurrentTime } from '@/types/timeapi';
 import { Paper, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 
-import { TrainerForm } from './components/TrainerForm';
+import { TrainerForm } from './components/TrainerForm/TrainerForm';
 
 type HomeProps = {
   currentDateTime: CurrentTime['dateTime'];
@@ -19,10 +19,10 @@ export const Home = ({ currentDateTime }: HomeProps) => (
     justifyContent='center'
     maxWidth={544}
   >
-    <Typography alignSelf='flex-end' variant='subtitle1'>
+    <Typography alignSelf='flex-end' variant='subtitle1' data-testid='timestamp'>
       {dayjs(currentDateTime).format('dddd, DD.M.YYYY')}
     </Typography>
 
-    <TrainerForm />
+    <TrainerForm onSubmit={(data) => console.log(data)} />
   </Stack>
 );
