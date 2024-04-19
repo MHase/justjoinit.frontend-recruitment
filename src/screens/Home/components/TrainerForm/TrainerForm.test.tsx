@@ -1,8 +1,16 @@
+import { ReactNode } from 'react';
+
 import { act, fireEvent, render, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import { describe, expect, it, vi } from 'vitest';
 
 import { TrainerForm } from './TrainerForm';
+
+const setup = (jsx: ReactNode) => ({
+  user: userEvent.setup(),
+  ...render(jsx),
+});
 
 vi.mock('axios');
 
@@ -22,7 +30,7 @@ describe('Trainer form', () => {
 
   it('calls the onSubmit function and shows success dialog', async () => {
     const onSubmitCallback = vi.fn();
-    const { getByText, getByPlaceholderText, getByTestId } = render(
+    const { getByText, getByPlaceholderText, getByTestId, user } = setup(
       <TrainerForm onSubmit={onSubmitCallback} />,
     );
 
@@ -31,16 +39,11 @@ describe('Trainer form', () => {
 
     expect(nameInput).toBeInTheDocument();
 
-    await act(async () => {
-      fireEvent.change(nameInput, { target: { value: 'Ash' } });
-      fireEvent.blur(nameInput);
+    await user.type(nameInput, 'Ash');
+    await user.type(ageInput, '16');
 
-      fireEvent.change(ageInput, { target: { value: 16 } });
-      fireEvent.blur(ageInput);
-    });
-
-    expect(nameInput.value).toBe('Ash');
-    expect(ageInput.value).toBe('16');
+    expect(nameInput).toHaveValue('Ash');
+    expect(ageInput).toHaveValue('16');
 
     vi.mocked(axios.get).mockResolvedValue({
       data: {
